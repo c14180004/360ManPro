@@ -1,0 +1,52 @@
+.contain{
+    width:100%;
+}
+.sideNavOpen{
+    font-size:30px;
+    margin:10px;
+    border:none;
+    background:none;
+}
+.sideNavClose{
+    font-size:30px;
+    margin:10px;
+    border:none;
+    background:none;
+    color:white;
+    transition:0.5s;
+}
+.sideNav{
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+.tablink {
+    background-color: #555;
+    color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+    width: 33.33%;
+}
+.tablink:hover {
+    background-color: #777;
+}
+.tabContent {
+    color: white;
+    display: none;
+    padding: 100px 20px;
+    height: 100%;
+  }
+@media screen and (max-height: 450px) {
+    .sideNav {padding-top: 15px;}
+    .sideNav a {font-size: 18px;}
+}

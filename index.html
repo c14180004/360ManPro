@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="360View.css"> 
+        <title>Panolens.js Development Example</title>
+    </head>
+    <body>
+        <div class='contain'>
+            <button class="sideNavOpen"><i class="fa fa-bars" aria-hidden="true"></i></button>
+            <div class="sideNav">
+                <button class="sideNavClose"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                <div class="tempat">
+                    <button class="tablink">Place</button>
+                    <button class="tablink">Point</button>
+                    <button class="tablink">Link</button>
+                    <div id="Place" class="tabContent">      
+                        <div class="btn btn-secondary addPlace">+ place</div>
+                        <ul>
+                            <li class="placeName">Lantai 1</li>
+                        </ul>
+                    </div>
+                    <div id="Point" class="tabContent">
+                        <div class="btn btn-secondary addPoint">+ Point</div>
+                        <ul>
+                            <li class="pointName">Pintu masuk perpus</li>
+                        </ul>
+                    </div>
+                    <div id="Link" class="tabContent">
+                        <div class="btn btn-secondary addLink">+ Link</div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="canvas">
+                <div class="minimap">
+
+                </div>
+                <div class="panorama">
+    
+                </div>
+            </div>
+        </div>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="js/three.js"></script>
+        <script src="js/panolens.js"></script>
+        <script>
+            $(".sideNavOpen").on("click",function(){
+                $(".sideNav").css("width","300px");
+            });
+            $(".sideNavClose").on("click",function(){
+                $(".sideNav").css("width","0");
+            })
+            $(".tablink").on("click",function(){
+                var name = $(this).text();
+                var tab = this;
+                var tabcontent = document.getElementsByClassName("tabContent");
+                for(var i = 0;i<tabcontent.length;i++){
+                    tabcontent[i].style.display = "none";
+                }
+                var tablinks = document.getElementsByClassName("tablink");
+                for(var i = 0;i<tablinks.length;i++){
+                    tablinks[i].style.backgroundColor = "";
+                }
+                $("#"+name).css("display","block");
+                $(this).css("background-color","#111");
+
+            })
+        </script>
+    </body>
+</html>
