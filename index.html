@@ -18,59 +18,75 @@
                     <button class="tablink">Point</button>
                     <button class="tablink">Link</button>
                     <div id="Place" class="tabContent">      
-                        <div class="btn btn-secondary addPlace">+ place</div>
+                        <button class="btn addPlace" style="background-color:#111;">Add Place</button>
+                        <div class="addFormPlace">
+                            <form>
+                                <div class="form-group">
+                                  <label for="namaTempat">Nama</label>
+                                  <input type="text" class="form-control" id="namaTempat" name="namaTempat" requried>
+                                </div>
+                                <div class="form-group">
+                                  <label for="detailTempat">More Information</label>
+                                  <textarea type="text" class="form-control" id="detailTempat" name="detailTempat" rows="5" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="imageTempat">Image</label>
+                                    <input type="file" class="form-control" id="imageTempat" name="imageTempapt" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </form>
+                        </div>
+                        <hr>
                         <ul>
                             <li class="placeName">Lantai 1</li>
                         </ul>
                     </div>
                     <div id="Point" class="tabContent">
-                        <div class="btn btn-secondary addPoint">+ Point</div>
+                        <button class="btn addPoint" style="background-color:#111;">Add Point</button>
+                        <div class="addFormPoint">
+                            <form>
+                                <div class="form-group">
+                                  <label for="namaPoint">Nama</label>
+                                  <input type="text" class="form-control" id="namaPoint" name="namaPoint" requried>
+                                </div>
+                                <div class="form-group">
+                                  <label for="detailPoint">More Information</label>
+                                  <textarea type="text" class="form-control" id="detailPoint" name="detailPoint" rows="5" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="imagePoint">Image</label>
+                                    <input type="file" class="form-control" id="imagePoint" name="imagePoint" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </form>
+                        </div>
+                        <hr>
                         <ul>
                             <li class="pointName">Pintu masuk perpus</li>
                         </ul>
                     </div>
                     <div id="Link" class="tabContent">
-                        <div class="btn btn-secondary addLink">+ Link</div>
+                        <button class="btn addLink" style="background-color:#111;">Add Link</button>
                     </div>
                 </div>
                 
             </div>
             <div class="canvas">
+                
                 <div class="minimap">
-
+                    <h2 class="judulMap">Lantai 6</h2>
+                    <img src="mapperpus/6.PNG" id="minimap" width="300px", height="300px">
                 </div>
-                <div class="panorama">
-    
-                </div>
+                <div id="panorama"></div> 
             </div>
+            
         </div>
+        
         
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         <script src="js/three.js"></script>
         <script src="js/panolens.js"></script>
-        <script>
-            $(".sideNavOpen").on("click",function(){
-                $(".sideNav").css("width","300px");
-            });
-            $(".sideNavClose").on("click",function(){
-                $(".sideNav").css("width","0");
-            })
-            $(".tablink").on("click",function(){
-                var name = $(this).text();
-                var tab = this;
-                var tabcontent = document.getElementsByClassName("tabContent");
-                for(var i = 0;i<tabcontent.length;i++){
-                    tabcontent[i].style.display = "none";
-                }
-                var tablinks = document.getElementsByClassName("tablink");
-                for(var i = 0;i<tablinks.length;i++){
-                    tablinks[i].style.backgroundColor = "";
-                }
-                $("#"+name).css("display","block");
-                $(this).css("background-color","#111");
-
-            })
-        </script>
+        <script src="360View.js"></script>
     </body>
 </html>
