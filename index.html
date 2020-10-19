@@ -9,6 +9,7 @@
         <title>Panolens.js Development Example</title>
     </head>
     <body>
+        <div class="cursorPoint"></div>
         <div class='contain'>
             <button class="sideNavOpen"><i class="fa fa-bars" aria-hidden="true"></i></button>
             <div class="sideNav">
@@ -20,48 +21,45 @@
                     <div id="Place" class="tabContent">      
                         <button class="btn addPlace" style="background-color:#111;">Add Place</button>
                         <div class="addFormPlace">
-                            <form>
-                                <div class="form-group">
-                                  <label for="namaTempat">Nama</label>
-                                  <input type="text" class="form-control" id="namaTempat" name="namaTempat" requried>
-                                </div>
-                                <div class="form-group">
-                                  <label for="detailTempat">More Information</label>
-                                  <textarea type="text" class="form-control" id="detailTempat" name="detailTempat" rows="5" required></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="imageTempat">Image</label>
-                                    <input type="file" class="form-control" id="imageTempat" name="imageTempapt" required>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Add</button>
-                            </form>
+                            <div class="form-group">
+                                <label for="namaTempat">Nama</label>
+                                <input type="text" class="form-control" id="namaTempat" name="namaTempat" requried>
+                            </div>
+                            <div class="form-group">
+                                <label for="detailTempat">More Information</label>
+                                <textarea type="text" class="form-control" id="detailTempat" name="detailTempat" rows="5" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="imageTempat">Image</label>
+                                <input type="file" class="form-control" id="imageTempat" name="imageTempat" required>
+                            </div>
+                            <button class="btn btn-primary" id="addPlace">Add</button>
                         </div>
                         <hr>
-                        <ul>
+                        <ul id="ListPlace">
                             <li class="placeName">Lantai 1</li>
                         </ul>
                     </div>
                     <div id="Point" class="tabContent">
                         <button class="btn addPoint" style="background-color:#111;">Add Point</button>
                         <div class="addFormPoint">
-                            <form>
-                                <div class="form-group">
-                                  <label for="namaPoint">Nama</label>
-                                  <input type="text" class="form-control" id="namaPoint" name="namaPoint" requried>
-                                </div>
-                                <div class="form-group">
-                                  <label for="detailPoint">More Information</label>
-                                  <textarea type="text" class="form-control" id="detailPoint" name="detailPoint" rows="5" required></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="imagePoint">Image</label>
-                                    <input type="file" class="form-control" id="imagePoint" name="imagePoint" required>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Add</button>
-                            </form>
+                            <div class="form-group">
+                                <label for="namaPoint">Nama</label>
+                                <input type="text" class="form-control" id="namaPoint" name="namaPoint" requried>
+                            </div>
+                            <div class="form-group">
+                                <label for="detailPoint">More Information</label>
+                                <textarea type="text" class="form-control" id="detailPoint" name="detailPoint" rows="5" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="imagePoint">Image</label>
+                                <input type="file" class="form-control" id="imagePoint" name="imagePoint" required>
+                            </div>
+                            <button class="btn btn-success" id="choosePoint">Choose Point</button>
+                            <button class="btn btn-primary" id="addPoint" disabled>Add</button>
                         </div>
                         <hr>
-                        <ul>
+                        <ul id="ListPoint">
                             <li class="pointName">Pintu masuk perpus</li>
                         </ul>
                     </div>
