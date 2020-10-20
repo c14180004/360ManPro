@@ -21,7 +21,7 @@
                     <button class="tablink">Link</button>
                     <div id="Place" class="tabContent">      
                         <button class="btn addPlace" style="background-color:#111;">Add Place</button>
-                        <div class="addFormPlace">
+                        <div class="addForm addFormPlace">
                             <div class="form-group">
                                 <label for="namaTempat">Nama</label>
                                 <input type="text" class="form-control" id="namaTempat" name="namaTempat" requried>
@@ -43,7 +43,7 @@
                     </div>
                     <div id="Point" class="tabContent">
                         <button class="btn addPoint" style="background-color:#111;">Add Point</button>
-                        <div class="addFormPoint">
+                        <div class="addForm addFormPoint">
                             <div class="form-group">
                                 <label for="namaPoint">Nama</label>
                                 <input type="text" class="form-control" id="namaPoint" name="namaPoint" requried>
@@ -65,15 +65,17 @@
                         </ul>
                     </div>
                     <div id="Link" class="tabContent">
-                        <button class="btn addLink" style="background-color:#111;">Add Link</button><br><br>
                         <div class="addFormLink">
+                            <div class="form-group">
+                                <label for="LinkDest">Destination Point</label>
+                                <input type="text" class="form-control" id="linkDest" name="linkDest" disabled required>
+                            </div>
+                            <ul id="ListPointLink">
+                                
+                            </ul><br><br>
                             <button class="btn btn-success" id="choosePointLink">Choose Point</button>
                             <button class="btn btn-primary" id="addLink" disabled>Add</button>
                         </div>
-                        <hr>
-                        <ul id="ListPointLink">
-                            <li class="pointLinkName">Pintu masuk perpus</li>
-                        </ul>
                     </div>
                 </div>
                 

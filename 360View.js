@@ -1,5 +1,6 @@
 var addFormPlaceOpen = false;
 var addFormPointOpen = false;
+var addFormLinkOpen = false;
 var navOpen = true;
 var dataPlace;
 var dataPoint;
@@ -7,7 +8,16 @@ var dataTempatPoint;
 var nowIdTempat = 2;
 var nowIdPoint;
 var pointSelected = true;
+var linkSelected = true;
 var pointX,pointY;
+var isMinimize = false;
+var pointId;
+var linkId;
+var clickPosition;
+var selectedLinkId=-1;
+var ParentLink;
+var ChildLink;
+var infoSpotTemp;
 
 var panorama, viewer;
 panorama = [];
@@ -40,14 +50,27 @@ class node{
     getPanorama(){
         return this.panorama;
     }
-    addChild(node,x,y,z){
-            var infospot = new PANOLENS.Infospot(300,PANOLENS.DataImage.Info);
-            infospot.position.set(x,y,z);
-            infospot.addEventListener('click',function(){
-            viewer.setPanorama(node.getPanorama());
-        })
+    addChild(j,x,y,z){
+        this.child.push(panorama[j]);
+        var infospot = new PANOLENS.Infospot(300,"arrowUp.png");
+        infospot.position.set(x,y,z);
+        infospot.addEventListener('click',function(){
+            viewer.setPanorama(panorama[j].getPanorama());
+            nowIdPoint=panorama[j].getId();
+            for(var i = 0;i<$(".mapPoint").length;i++){
+                if($(".mapPoint").eq(i).attr("id") == panorama[j].getId()){
+                    $(".mapPoint").eq(i).css("background-color","green");
+                }else{
+                    $(".mapPoint").eq(i).css("background-color","red");
+                }
+            }
+            addPanoramaListener(j);
+            getLinkPoint();
+        });
         this.panorama.add(infospot);
-        this.child.push(node);
+        this.panorama.toggleInfospotVisibility(true);
+        //this.panorama.link(node,new THREE.Vector3(x,y,z));
+        
     }
     getChild(i){
         return this.child[i];
@@ -55,17 +78,10 @@ class node{
     getId(){
         return this.id;
     }
+    countChild(){
+        return this.child.length;
+    }
 }
-for(var i = 1;i<=16;i++){
-        var panoPath = "perpus/"+i+".jpg";
-        panorama.push(new node(0,new PANOLENS.ImagePanorama(panoPath)));
-        panorama[i-1].getPanorama().addEventListener('click',function(){
-        var clickPosition = viewer.getPosition();
-        console.log("X: " + clickPosition.x + " Y: " + clickPosition.y + " Z: " + clickPosition.z);
-    });
-}
-panorama[0].addChild(panorama[1], -2605.23, -584.59, -4216.34);
-panorama[1].addChild(panorama[0], 331.16, -297.56, -4970.95);
 
 
 
@@ -84,6 +100,18 @@ $(".sideNavClose").on("click",function(){
     $(".addFormPoint").css({"height":"0"});
     addFormPointOpen = false;
     navOpen = false;
+
+    //remove cursor;
+    pointSelected = true;
+    $("*").css("cursor","");
+    window.removeEventListener("mousemove",cursor);
+    $("#addPoint").prop("disabled",true);
+    $(".minimap").children("#"+pointId).remove();
+    $(".cursorPoint").css("display","none");
+    linkSelected = true;
+    window.removeEventListener("mousemove",cursorLink);
+    $("#addLink").prop("disabled",true);
+    $(".cursorLink").css("display","none");
 });
 $(".tablink").on("click",function(){
     var name = $(this).text();
@@ -99,6 +127,18 @@ $(".tablink").on("click",function(){
     $("#"+name).css("display","block");
     $(this).css("background-color","#444");
 
+    //remove cursor;
+    pointSelected = true;
+    $("*").css("cursor","");
+    window.removeEventListener("mousemove",cursor);
+    $("#addPoint").prop("disabled",true);
+    $(".minimap").children("#"+pointId).remove();
+    $(".cursorPoint").css("display","none");
+    linkSelected = true;
+    window.removeEventListener("mousemove",cursorLink);
+    $("#addLink").prop("disabled",true);
+    $(".cursorLink").css("display","none");
+    $("#linkDest").val("");
 });
 $(document).ready(function(){
     
@@ -123,9 +163,6 @@ $(document).ready(function(){
             $(".addFormPoint").css({"height":"0"});
             addFormPointOpen = false;
         }
-    });
-    $(".addLink").on("click",function(){
-        
     });
 
     
@@ -212,10 +249,78 @@ $(document).ready(function(){
             alert("select point");
         }
     });
-    addPanorama();
+    
+    $("#addLink").on("click",function(){
+        if(selectedLinkId == -1){
+            alert("Select link destination");
+        }else{
+            $.ajax({
+                url:"addLink.php",
+                type:'post',
+                data:{
+                    x:clickPosition.x,
+                    y:clickPosition.y,
+                    z:clickPosition.z,
+                    parent:nowIdPoint,
+                    child:selectedLinkId
+                },success:function(response){
+                    alert(response);
+                    var tempJ;
+                    for(var i = 0;i<panorama.length;i++){
+                        if(panorama[i].getId() == selectedLinkId){
+                            tempJ = i;
+                        }
+                    }
+                    for(var i = 0;i<panorama.length;i++){
+                        if(panorama[i].getId() == nowIdPoint){
+                            panorama[i].addChild(tempJ, clickPosition.x, clickPosition.y, clickPosition.z);
+                        }
+                    }
+                    selectedLinkId = -1;
+                    var tablinks = document.getElementsByClassName("tablink");
+                    for(var i = 0;i<tablinks.length;i++){
+                        tablinks[i].style.backgroundColor = "";
+                    } 
+                    $("#linkDest").val("");
+                },error:function(e){
+                    alert(e);
+                }
+            })
+        }
+        
+    });
+
+
+    
     getDataPlace();
     getDataPoint(nowIdTempat);
-    
+    hideMiniMap();
+    panorama=[];
+    $.ajax({
+        url:"getPoint.php",
+        type:"GET",
+        dataType:"json",
+        success:function(data){
+            for(var i = 0;i<data.length;i++){
+                var tempPano = new PANOLENS.ImagePanorama(data[i].panoImage);
+                tempPano.setLinkingImage("arrowUp.png",300);
+                tempPano.addEventListener('progresss',function(){
+                    console.log(e.progress);
+                })
+                panorama.push(new node(data[i].id,tempPano));
+                addPanoramaListener(i)
+            }
+            viewer.setPanorama(panorama[0].getPanorama());
+            nowIdTempat=panorama[0].getId();
+            $(".placeName").eq(0).click();
+            // Test repeated scenario
+            viewer.enableControl( PANOLENS.CONTROLS.DEVICEORIENTATION );
+            viewer.enableEffect( PANOLENS.MODES.CARDBOARD );
+            viewer.enableControl( PANOLENS.CONTROLS.ORBIT );
+            viewer.enableEffect( PANOLENS.MODES.NORMAL );
+
+        }
+    });
 });
 
 function addPanorama(){
@@ -225,11 +330,43 @@ function addPanorama(){
         type:"GET",
         dataType:"json",
         success:function(data){
+            alert("hello1");
             for(var i = 0;i<data.length;i++){
-                panorama.push(new node(data[i].id,new PANOLENS.ImagePanorama(data[i].panoImage)));
+                var tempPano = new PANOLENS.ImagePanorama(data[i].panoImage);
+                tempPano.setLinkingImage("arrowUp.png",300);
+                tempPano.addEventListener('progresss',function(){
+                    console.log(e.progress);
+                })
+                var tempNode = new node(data[i].id,tempPano);
+                panorama.push(tempNode);
+                addPanoramaListener(i);
             }
+            // Test repeated scenario
+            viewer.enableControl( PANOLENS.CONTROLS.DEVICEORIENTATION );
+            viewer.enableEffect( PANOLENS.MODES.CARDBOARD );
+            viewer.enableControl( PANOLENS.CONTROLS.ORBIT );
+            viewer.enableEffect( PANOLENS.MODES.NORMAL );
         }
     })
+}
+function addPanoramaListener(j){
+    panorama[j].getPanorama().addEventListener('click',function(){
+        if(!linkSelected){
+            clickPosition = viewer.getPosition();
+            console.log("X: " + clickPosition.x + " Y: " + clickPosition.y + " Z: " + clickPosition.z);
+            
+            infoSpotTemp = new PANOLENS.Infospot(300,"arrowUp.png");
+            infoSpotTemp.position.set(clickPosition.x,clickPosition.y,clickPosition.z);
+            panorama[j].getPanorama().add(infoSpotTemp);
+            panorama[j].getPanorama().toggleInfospotVisibility(true);
+
+            linkSelected = true;
+            $("*").css("cursor","");
+            window.removeEventListener("mousemove",cursorLink);
+            $("#addLink").prop("disabled",false);
+            $(".cursorLink").css("display","none");
+        }
+    });
 }
 function getDataPlace(){
     $.ajax({
@@ -250,7 +387,7 @@ function getDataPlace(){
                 for(var i=0;i<dataPlace.length;i++){
                     if(dataPlace[i].id == nowIdTempat){
                         str = "";
-                        str +='<h2 class="judulMap">'+dataPlace[i].nama+'</h2><img src="'+dataPlace[i].image+'" id="minimap" width="300px", height="300px">';
+                        str +='<h2 class="judulMap">'+dataPlace[i].nama+'</h2><h2 class="closeMap"><i class="fa fa-chevron-up" aria-hidden="true"></i></h2><img src="'+dataPlace[i].image+'" id="minimap">';
                         $(".minimap").html(str);
                         $("#minimap").on("click",function(){
                             if(!pointSelected){
@@ -260,21 +397,35 @@ function getDataPlace(){
                                 addPlace(x,y);
                             }
                         })
+                        hideMiniMap();
                         getDataPoint(nowIdTempat);
                     }
                 }
                 getPointId();
-                pointSelected = true;
-                $("*").css("cursor","");
-                window.removeEventListener("mousemove",cursor);
-                $("#addPoint").prop("disabled",true);
-                $(".minimap").children("#"+pointId).remove();
-                $(".cursorPoint").css("display","none");
             });
         }
     });
 }
+function hideMiniMap(){
+    $(".closeMap").on("click",function(){
+        if(isMinimize){
+            $(this).children(".fa").addClass("fa-chevron-down");
+            $(this).children(".fa").removeClass("fa-chevron-up");
+            isMinimize = false;
+            $("#minimap").css("height","0");
+            $(".mapPoint").css("display","none");
+
+        }else{
+            $(this).children(".fa").addClass("fa-chevron-up");
+            $(this).children(".fa").removeClass("fa-chevron-down");
+            isMinimize = true;
+            $("#minimap").css("height","300px");
+            $(".mapPoint").css("display","block");
+        }
+    })
+}
 function getDataPoint(nowIdTempat){
+    var pertama = false;;
     $.ajax({
         url:"getPoint.php",
         type:"GET",
@@ -282,8 +433,13 @@ function getDataPoint(nowIdTempat){
         success: function(data){
             dataPoint = data;
             var str = "";
+            var str1 = "";
             for(var j = 0;j<dataPoint.length;j++){
                 if(dataPoint[j].idTempat == nowIdTempat){
+                    if(!pertama){
+                        nowIdPoint = dataPoint[j].id;
+                        pertama = true;
+                    }
                     $(".minimap").append("<button id='"+dataPoint[j].id+"' class='mapPoint'></button>");
                     if(navOpen){
                         $(".minimap").children("#"+dataPoint[j].id).css({"left":(dataPoint[j].x-320)+"px","top":(dataPoint[j].y)+"px"});
@@ -291,34 +447,93 @@ function getDataPoint(nowIdTempat){
                         $(".minimap").children("#"+dataPoint[j].id).css({"left":(dataPoint[j].x-20)+"px","top":(dataPoint[j].y)+"px"});
                     }
                     str += "<li id='"+dataPoint[j].id+"' class='pointName'>"+dataPoint[j].nama+"</li>";
+                    str1 +="<li id='"+dataPoint[j].id+"' class='pointLinkName'>"+dataPoint[j].nama+"</li>";
                 }
             }
             $("#ListPoint").html(str);
+            $("#ListPointLink").html(str1);
+            $(".mapPoint").eq(0).css("background-color","green");
+            for(var i = 0;i<panorama.length;i++){
+                if(panorama[i].getId() == nowIdPoint){
+                    viewer.setPanorama(panorama[i].getPanorama());
+                    addPanoramaListener(i);
+                }
+            }
+            getLinkPoint();
             $(".pointName").on("click",function(){
                 nowIdPoint = this.id;
+                for(var i = 0;i<$(".mapPoint").length;i++){
+                    if($(".mapPoint").eq(i).attr("id") == this.id){
+                        $(".mapPoint").eq(i).css("background-color","green");
+                    }else{
+                        $(".mapPoint").eq(i).css("background-color","red");
+                    }
+                }
+                
                 for(var i = 0;i<panorama.length;i++){
                     if(panorama[i].getId() == nowIdPoint){
                         viewer.setPanorama(panorama[i].getPanorama());
+                        addPanoramaListener(i);
                     }
                 }
+                getLinkPoint();
             });
             $(".mapPoint").on("click",function(){
                 nowIdPoint = this.id;
+                for(var i = 0;i<$(".mapPoint").length;i++){
+                    $(".mapPoint").eq(i).css("background-color","red");
+                }
+                $(this).css("background-color","green");
                 for(var i = 0;i<panorama.length;i++){
                     if(panorama[i].getId() == nowIdPoint){
                         viewer.setPanorama(panorama[i].getPanorama());
+                        addPanoramaListener(i);
                     }
                 }
+                getLinkPoint();
             });
+            $(".pointLinkName").on("click",function(){
+                selectedLinkId=this.id;
+                $("#linkDest").val($(this).text());
+            });
+            getLinkPoint();
         }
         ,error:function(a){
             console.log(a);
         }
     });
 }
-
-var pointId;
+function getLinkPoint(){
+    var tempParent;
+    for(var k=0;k<panorama.length;k++){
+        if(panorama[k].getId() == nowIdPoint){
+            tempParent = panorama[k];  
+        }
+    }
+    if(tempParent.countChild()==0){
+        $.ajax({
+            url:"getLink.php",
+            type:"GET",
+            dataType:"json",
+            data:{
+                id:nowIdPoint
+            },success:function(data){
+                for(var i = 0;i<data.length;i++){
+                    for(var j=0;j<panorama.length;j++){
+                        if(data[i].id_child == panorama[j].getId()){
+                            tempParent.addChild(j,data[i].x,data[i].y,data[i].z);
+                        }
+                    }
+                }
+            },error:function(e){
+                console.log(e);
+            }
+        });
+    }
+}
+//untuk cursor point
 var mouseCursor = document.querySelector(".cursorPoint");
+
 $("#choosePoint").on("click",function(){
     $(".cursorPoint").css("display","block");
     window.addEventListener("mousemove",cursor); 
@@ -362,14 +577,44 @@ function getPointId(){
 }
 
 
+//untuk cursor Link
+var mouseCursorLink = document.querySelector(".cursorLink");
+$("#choosePointLink").on("click",function(){
+    var panoramaTemp;
+    for(var i = 0;i<panorama.length;i++){
+        if(panorama[i].getId() == nowIdPoint){
+            panorama[i].getPanorama().remove(infoSpotTemp);
+        }
+    }
+    
+    $(".cursorLink").css("display","block");
+    window.addEventListener("mousemove",cursorLink); 
+    $("*").css("cursor","none");
+    getLinkId();
+    linkSelected = false;
+});
+function cursorLink(e){
+    mouseCursorLink.style.top = e.pageY + "px";
+    mouseCursorLink.style.left = e.pageX + "px";
+}
+function getLinkId(){
+    $.ajax({
+        url:"getLinkId.php",
+        type:"GET",
+        dataType:"json",
+        success:function(data){
+            if(data.length>0){
+                linkId = (parseInt(data[data.length-1].id) + 1).toString();
+            }else{
+                linkId = 1;
+            }
+        }
+    })
+}
+
+
 
 // untuk view 360
 
 
 
-
-// Test repeated scenario
-viewer.enableControl( PANOLENS.CONTROLS.DEVICEORIENTATION );
-viewer.enableEffect( PANOLENS.MODES.CARDBOARD );
-viewer.enableControl( PANOLENS.CONTROLS.ORBIT );
-viewer.enableEffect( PANOLENS.MODES.NORMAL );

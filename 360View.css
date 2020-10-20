@@ -63,14 +63,7 @@ html,body{
     padding: 100px 20px;
     height: 100%;
 }
-.addFormPlace{
-    height:0px;
-    width:100%;
-    margin-top:10px;
-    overflow-y: hidden;
-    transition:height 0.5s;
-}
-.addFormPoint{
+.addForm{
     height:0px;
     width:100%;
     margin-top:10px;
@@ -98,7 +91,6 @@ html,body{
     z-index:2;
     position:absolute;
     width:300px;
-    height:300px;
     left:20px;
 }
 .judulMap{
@@ -106,8 +98,18 @@ html,body{
     width:90%;
     margin:15px;
 }
+.closeMap{
+    position:absolute;
+    right:10px;
+    top:-5px;
+    z-index:5;
+    background-color:none;
+}
 #minimap{
     opacity:0.9;
+    transition: 0.2s;
+    width:300px;
+    height:300px;
 }
 .mapPoint{
     width:12px;
@@ -115,27 +117,37 @@ html,body{
     border:none;
     border-radius: 50%;
     position:absolute;
-    background-color:green;
+    background-color:red;
     z-index:5;
 }
 .placeName{
     width:100%;
     padding:5px;
-    font-size:24px;
+    font-size:20px;
     font-weight: bold;
 }
 .placeName:hover{
-    background-color:#555;
+    background-color:#666;
     cursor:pointer;
 }
 .pointName{
     width:100%;
     padding:5px;
-    font-size:24px;
+    font-size:14px;
     font-weight: bold;
 }
 .pointName:hover{
-    background-color:#555;
+    background-color:#666;
+    cursor:pointer;
+}
+.pointLinkName{
+    width:100%;
+    padding:5px;
+    font-size:14px;
+    font-weight: bold;
+}
+.pointLinkName:hover{
+    background-color:#666;
     cursor:pointer;
 }
 .cursorPoint{
@@ -146,8 +158,22 @@ html,body{
     display:none;
     position:absolute;
     left:20px;
-    background-color:green;
+    background-color:red;
     z-index:5;
+}
+.cursorLink{
+    position:absolute;
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    z-index:5;
+    display:none;
+    transform: translate(-50%,-50%);
+    pointer-events:none;
+}
+#ListPointLink{
+    height:250px;
+    overflow-y: scroll;
 }
 ul{
     padding-left: 0px;
