@@ -37,6 +37,7 @@ viewer.reticle.addEventListener('reticle-end', logEvent );
 viewer.reticle.addEventListener('reticle-ripple-start', logEvent );
 viewer.reticle.addEventListener('reticle-ripple-end', logEvent );
 
+// class untuk menyimpan panorama
 class node{
     constructor(id,panorama){
             this.id = id;
@@ -86,7 +87,7 @@ class node{
 
 
 
-//ajax edit
+// untu side nav
 $(".sideNavOpen").on("click",function(){
     $(".sideNav").css("width","300px");
     $(".canvas").css("left","300px");
@@ -113,6 +114,8 @@ $(".sideNavClose").on("click",function(){
     $("#addLink").prop("disabled",true);
     $(".cursorLink").css("display","none");
 });
+
+//untuk ganti tab
 $(".tablink").on("click",function(){
     var name = $(this).text();
     var tab = this;
@@ -140,8 +143,11 @@ $(".tablink").on("click",function(){
     $(".cursorLink").css("display","none");
     $("#linkDest").val("");
 });
+
+
+
 $(document).ready(function(){
-    
+    //listener untuk tab
     $(".tablink").eq(0).css("background-color","#444");
     $("#Place").css("display","block");
 
@@ -167,7 +173,7 @@ $(document).ready(function(){
 
     
 
-    //ajax
+    //fungsi untuk menambahkan tempat
     $("#addPlace").on("click",function(){
         var fd= new FormData();
         var namaTempat = $("#namaTempat").val();
@@ -204,6 +210,9 @@ $(document).ready(function(){
             });
         }
     });
+
+
+    //fungsi untuk menambahkan point
     $("#addPoint").on("click",function(){
         if(pointSelected){
             var fd= new FormData();
@@ -249,7 +258,9 @@ $(document).ready(function(){
             alert("select point");
         }
     });
+
     
+    // fungsi untuk menambahkan link
     $("#addLink").on("click",function(){
         if(selectedLinkId == -1){
             alert("Select link destination");
@@ -291,7 +302,7 @@ $(document).ready(function(){
     });
 
 
-    
+    // menjalankan ini saat pertama kali load website
     getDataPlace();
     getDataPoint(nowIdTempat);
     hideMiniMap();
@@ -322,7 +333,7 @@ $(document).ready(function(){
         }
     });
 });
-
+//add panorama ke list panorama
 function addPanorama(){
     panorama = [];
     $.ajax({
@@ -349,6 +360,7 @@ function addPanorama(){
         }
     })
 }
+//listener jika panorama di tekan
 function addPanoramaListener(j){
     panorama[j].getPanorama().addEventListener('click',function(){
         if(!linkSelected){
@@ -368,6 +380,7 @@ function addPanoramaListener(j){
         }
     });
 }
+//mengambil data tempat dan memberi event listener
 function getDataPlace(){
     $.ajax({
         url:"getTempat.php",
@@ -406,6 +419,7 @@ function getDataPlace(){
         }
     });
 }
+//toggle hide and show minimap
 function hideMiniMap(){
     $(".closeMap").on("click",function(){
         if(isMinimize){
@@ -424,6 +438,7 @@ function hideMiniMap(){
         }
     })
 }
+// mendapatkan data point di minimap dan memberi event listener
 function getDataPoint(nowIdTempat){
     var pertama = false;;
     $.ajax({
@@ -503,6 +518,7 @@ function getDataPoint(nowIdTempat){
         }
     });
 }
+// mendapatkan data arrow di panorama
 function getLinkPoint(){
     var tempParent;
     for(var k=0;k<panorama.length;k++){

@@ -57,11 +57,11 @@ html,body{
 }
 .tabContent {
     background-color:#444;
-    height:100% !important;
     color:white;
     display: none;
     padding: 100px 20px;
     height: 100%;
+    overflow-y:hidden;
 }
 .addForm{
     height:0px;
