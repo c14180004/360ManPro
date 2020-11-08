@@ -1,11 +1,12 @@
 <?php
 require_once "connect.php";
-if(isset($_FILES['file']['name']) && isset($_POST['namaTempat']) && isset($_POST['detailTempat'])){
+if(isset($_FILES['file']['name']) && isset($_POST['namaTempat']) && isset($_POST['detailTempat']) && isset($_POST['idGedung'])){
 
    /* Getting file name */
    $filename = uniqid().".png";
    $namaTempat = $_POST['namaTempat'];
    $detailTempat = $_POST['detailTempat'];
+   $idGedung = $_POST['idGedung'];
    /* Location */
    $location = "mapUpload/".$filename;
    $imageFileType = pathinfo($location,PATHINFO_EXTENSION);
@@ -20,7 +21,7 @@ if(isset($_FILES['file']['name']) && isset($_POST['namaTempat']) && isset($_POST
       /* Upload file */
       if(move_uploaded_file($_FILES['file']['tmp_name'],$location)){
          $response = $location;
-         $sqlAddTempat="INSERT INTO tempat VALUES(0,'".$namaTempat."','".$detailTempat."','".$location."')";
+         $sqlAddTempat="INSERT INTO tempat VALUES(0,'".$namaTempat."','".$detailTempat."',".$idGedung.",'".$location."')";
          $resAddTempat=mysqli_query($conn,$sqlAddTempat);
          if($resAddTempat){
              $response = "success";
