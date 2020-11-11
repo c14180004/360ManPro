@@ -265,6 +265,7 @@ $(document).ready(function(){
     $("#Gedung").css("display","block");
     $(".canvas").css("display","none");
     $(".map").css("display","block");
+    
 
     $(".addGedung").on("click",function(){
         if(!addFormGedungOpen){
@@ -632,6 +633,9 @@ $(document).ready(function(){
             $(".tablink").eq(0).click();
         }
     });
+
+    //searchgedung
+
     
 });
 function updateLocation(tab){
@@ -734,6 +738,8 @@ function hideMiniMap(){
         }
     })
 }
+
+
 //getData
 function getDataGedung(){
     $.ajax({
@@ -1199,4 +1205,11 @@ function linkDeleteListener(){
         }
     })
 }
+
+
+//test sek
+
+// $(document).on("input", '#searchbargedung', function(){
+
+// });
 

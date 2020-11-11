@@ -32,6 +32,13 @@
                     <button class="tablink">Point</button>
                     <button class="tablink admin">Link</button>
                     <div id="Gedung" class="tabContent">
+                        <!-- hanzen -->
+                        <div class="searchbar-Gedung">
+                            <label for="searchbargedung">Search Gedung :</label>
+                            <input type="text" class="form-control" id="searchbargedung" placeholder="Enter Nama Gedung">    
+                        </div>
+                        <!-- hanzen -->
+                        <br>
                         <button class="btn add addGedung" style="background-color:#111;">Add Gedung</button>
                         <button class="btn btn-danger delete deleteGedung">Delete</button>
                         <div class="addForm addFormGedung">
@@ -159,7 +166,58 @@
         <script src="js/panolens.js"></script>
         <script src="js/360View.js"></script>
         <script>
+        function refreshData(){
+            $("#ListGedung").text("Data Loading...");
+                if(ajaxcall!=null){
+                    ajaxcall.abort();
+                }
+                ajaxcall = $.get("refesh.php",
+                {
+                    //input kalau ada
+                },
+                function(result){
+                    console.log(result);
+                    var data = JSON.parse(result);
+                    var str = "";
+                    //loop
+                    for(var i=0; i<data.length; i++){
+                        var temp = data[i];
+                            str +="<li id='gedungName"+temp.id+"' class='gedungName'><div class='gedungHeader'>"+temp.nama+"</div><div class='checkbox gedungCB'></div><div class='gedungInfo'>"+temp.detail+"</div></li>"
+                            $(".mapPetra").append("<img class='gedungPoint' id='gedung"+temp.id+"'src='assets/gedungPoint.png'>");
+                            $(".mapPetra").children("#gedung"+temp.id).css({"left":(temp.x - $(".map").offset().left)+"px","top":(temp.y - $(".map").offset().top)+"px"});
+                            console.log(str);
+                    }
+                    $("#ListGedung").html(str);
+                    // $("#songsnotfound").hide();
+                })
+            }
+            function searchData(search){
+                $("#ListGedung").text("Data Loading...");
+                $("#ListGedung").empty();
+                ajaxcall = $.get("searchgedung.php",
+                {
+                    search: search
+                },
+                function(result){
+                    console.log(result);
+                    var data = JSON.parse(result);
+                    var str = "";
+                    //loop
+                    for(var i=0; i<data.length; i++){
+                        var temp = data[i];
+                        str +="<li id='gedungName"+temp.id+"' class='gedungName'><div class='gedungHeader'>"+temp.nama+"</div><div class='checkbox gedungCB'></div><div class='gedungInfo'>"+temp.detail+"</div></li>"
+                        $(".mapPetra").append("<img class='gedungPoint' id='gedung"+temp.id+"'src='assets/gedungPoint.png'>");
+                        $(".mapPetra").children("#gedung"+temp.id).css({"left":(temp.x - $(".map").offset().left)+"px","top":(temp.y - $(".map").offset().top)+"px"});
+                        console.log(str);
+                    }
+                    if(data.length>0){
+                        $("#ListGedung").html(str);
+                    }
+
+                })
+            }
             $(document).ready(function(){
+                
                 isLogin = <?php echo $isLogin?>;
                 console.log(isLogin);
                 if(isLogin == true){
@@ -173,6 +231,22 @@
                     $(".delete").css("display","none");
                     $(".tablink").css("width","33.33%");
                 }
+                var timer;
+                $("#searchbargedung").on("input",function(){
+                    console.log("bhaa");
+                    clearTimeout(timer);
+                    timer = setTimeout(function(){
+                        var search=$("#searchbargedung").val();
+                        console.log(search);
+                        if(search==""){
+                            //kosong
+                            refreshData();
+                        }
+                        else{
+                            searchData(search);
+                        }
+                    },200); //200ms kemudian baru functionnya dipanggil
+                })
             })
             
         </script>       
