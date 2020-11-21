@@ -21,6 +21,7 @@ var nowIdGedung;
 var nowIdTempat;
 var nowIdPoint;
 
+var pointGedungSelecting = false;
 var gedungSelected = true;
 var pointSelected = true;
 var linkSelected = true;
@@ -31,6 +32,7 @@ var gedungId;
 var pointId;
 var linkId;
 
+var pointGedungOption;
 var clickPosition;
 var selectedLinkId=-1;
 var ParentLink;
@@ -235,6 +237,7 @@ $(".tablink").on("click",function(){
         $(".mapContainer").css("display","none");
     }
     updateLocation(name);
+    updatePath(name);
     //remove cursor;
     gedungSelected = true;
     $("*").css("cursor","");
@@ -269,7 +272,11 @@ $(document).ready(function(){
 
     $(".addGedung").on("click",function(){
         if(!addFormGedungOpen){
-            $(".addFormGedung").css({"height":"300px"});
+            if(!pointGedungSelecting){
+                $(".addFormGedung").css({"height":"270px"});
+            }else{
+                $(".addFormGedung").css({"height":"420px"});
+            }
             addFormGedungOpen = true;
         }else{
             $(".addFormGedung").css({"height":"0"});
@@ -440,7 +447,8 @@ $(document).ready(function(){
                 fd.append('detailGedung',detailGedung);
             }else{
                 alert("detail: " + detailGedung);
-            } 
+            }
+            fd.append("point",pointGedungOption); 
             fd.append('gedungX',gedungX);
             fd.append('gedungY',gedungY);
             for(var x of fd.entries()){
@@ -457,6 +465,9 @@ $(document).ready(function(){
                     $("#namaGedung").val("");
                     $("#detailGedung").val("");
                     $("#addGedung").prop("disabled","true");
+                    $(".pointOption").css("height","0px");
+                    $(".addFormGedung").css({"height":"270px"});
+                    pointGedungSelecting = false;
                     getGedungId();
                     getDataGedung(); 
                 }
@@ -640,7 +651,6 @@ $(document).ready(function(){
 });
 function updateLocation(tab){
     var str="";
-    
     if(tab == "Link"){
         str="Form: -"
         for(i = 0;i<dataPoint.length;i++){
@@ -674,6 +684,36 @@ function updateLocation(tab){
             }
         }
         $("#forGedung").html(str);
+    }
+}
+function updatePath(tab){
+    var str="";
+    if(tab == "Link" || tab == "Point" || tab == "Place"){
+        for(i = 0;i<dataGedung.length;i++){
+            if(dataGedung[i].id == nowIdGedung){
+                str = str + dataGedung[i].nama ;
+                break;
+            }
+        }
+        $("#pathPlace").html(str);
+    }
+    if(tab == "Point" || tab == "Link"){
+        for(i = 0;i<dataPlace.length;i++){
+            if(dataPlace[i].id == nowIdTempat){
+                str = str + " > " + dataPlace[i].nama;
+                break;
+            }
+        }
+        $("#pathPoint").html(str);
+    }
+    if(tab == "Link"){
+        for(i = 0;i<dataPoint.length;i++){
+            if(dataPoint[i].id == nowIdPoint){
+                str = str + " > " + dataPoint[i].nama;
+                break;
+            }
+        }
+        $("#pathLink").html(str);
     }
 }
 function addPanorama(){
@@ -754,8 +794,13 @@ function getDataGedung(){
             for(var i=0;i<data.length;i++){
                 var temp = data[i];
                 str +="<li id='gedungName"+temp.id+"' class='gedungName'><div class='gedungHeader'>"+temp.nama+"</div><div class='checkbox gedungCB'></div><div class='gedungInfo'>"+temp.detail+"</div></li>"
-                $(".mapPetra").append("<img class='gedungPoint' id='gedung"+temp.id+"'src='assets/gedungPoint.png'>");
-                $(".mapPetra").children("#gedung"+temp.id).css({"left":(temp.x - $(".map").offset().left)+"px","top":(temp.y - $(".map").offset().top)+"px"});
+                $(".mapPetra").append("<img class='gedungPoint' id='gedung"+temp.id+"'src='assets/icon/"+temp.icon+".png'>");
+                if(navOpen){
+                    $(".mapPetra").children("#gedung"+temp.id).css({"left":(temp.x - $(".map").offset().left + 300)+"px","top":(temp.y - $(".map").offset().top)+"px"});
+                }else{
+                    $(".mapPetra").children("#gedung"+temp.id).css({"left":(temp.x - $(".map").offset().left)+"px","top":(temp.y - $(".map").offset().top)+"px"});
+                }   
+                
             }
             listGedung.html(str);
             gedungInfoListener();
@@ -765,6 +810,8 @@ function getDataGedung(){
                     var tempGedungId = $(this).attr("id");
                     nowIdGedung = parseInt(tempGedungId.substring(10,tempGedungId.length));
                     //console.log(nowIdGedung);
+                    nowIdTempat = -1;
+                    nowIdPoint = -1;
                     getDataPlace(nowIdGedung);
                     $(".tablink").eq(1).click();
                 }
@@ -773,6 +820,8 @@ function getDataGedung(){
                 var tempGedungId = $(this).attr("id");
                 nowIdGedung = parseInt(tempGedungId.substring(6,tempGedungId.length));
                 //console.log(nowIdGedung);
+                nowIdTempat = -1;
+                nowIdPoint = -1;
                 getDataPlace(nowIdGedung);
                 $(".tablink").eq(1).click();
             });
@@ -798,9 +847,13 @@ function getDataPlace(nowIdGedung){
                 
                 }
             }
+            if(str == ""){
+                getDataPoint(-1);
+            }
             listPlace.html(str);
             placeInfoListener();
             placeDeleteListener();
+            console.log(dataPlace);  
             $(".placeName").on("click",function(){
                 tempTempatId = $(this).attr("id");
                 nowIdTempat = parseInt(tempTempatId.substring(6,tempTempatId.length));
@@ -820,8 +873,12 @@ function getDataPlace(nowIdGedung){
                             }
                         })
                         hideMiniMap();
+                        nowIdPoint = -1;
                         getDataPoint(nowIdTempat);
                     }
+                }
+                if(nowIdTempat == -1){
+                    getDataPoint(-1)
                 }
                 getPointId();
             });
@@ -973,13 +1030,30 @@ function getLinkPoint(){
 //untuk cursor map
 var mouseCursorGedung = document.querySelector(".cursorGedung");
 $("#chooseGedung").on("click",function(){
-    
+    if(!pointGedungSelecting){
+        $(".pointOption").css("height","140px");
+        $(".addFormGedung").css({"height":"420px"});
+        pointGedungSelecting = true;
+    }else{
+        $(".pointOption").css("height","0px");
+        $(".addFormGedung").css({"height":"270px"});
+        pointGedungSelecting = false;
+        gedungSelected = true;
+        $("*").css("cursor","");
+        window.removeEventListener("mousemove",cursorGedung);
+        $("#addGedung").prop("disabled",false);
+        $(".mapPetra").children("#gedung"+gedungId).remove();
+        $(".cursorGedung").css("display","none");
+    }
+});
+$(".pointOptionIcon").on("click",function(){
+    pointGedungOption=$(this).attr("id");
     for(var i = 0;i<panorama.length;i++){
         if(panorama[i].getId() == nowIdPoint){
             panorama[i].getPanorama().remove(infoSpotTemp);
         }
     }
-    
+    $(".cursorGedung").attr("src","assets/icon/"+pointGedungOption+".png")
     $(".cursorGedung").css("display","block");
     window.addEventListener("mousemove",cursorGedung); 
     $("*").css("cursor","none");
@@ -1000,8 +1074,8 @@ function addGedung(){
             gedungX = x;
             gedungY = y;
             console.log("X: " + x + ", Y: " + y);
-            $(".mapPetra").children("#"+gedungId).remove();
-            $(".mapPetra").append("<img class='gedungPoint' id='gedung"+gedungId+"'src='assets/gedungPoint.png'>");
+            $(".mapPetra").children("#gedung"+gedungId).remove();
+            $(".mapPetra").append("<img class='gedungPoint' id='gedung"+gedungId+"'src='assets/icon/"+pointGedungOption+".png'>");
             $(".mapPetra").children("#gedung"+gedungId).css({"left":(x)+"px","top":(y)+"px"});
             gedungSelected = true;
             $("*").css("cursor","");

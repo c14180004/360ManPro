@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="css/360View.css"> 
-        <title>Panolens.js Development Example</title>
+        <title>Petra Christian University Campus Tour</title>
     </head>
     <body>
         
@@ -39,6 +39,7 @@
                         </div>
                         <!-- hanzen -->
                         <br>
+                        <div class = "path" id="pathGedung"></div>
                         <button class="btn add addGedung" style="background-color:#111;">Add Gedung</button>
                         <button class="btn btn-danger delete deleteGedung">Delete</button>
                         <div class="addForm addFormGedung">
@@ -53,6 +54,18 @@
                             
                             <button class="btn btn-success" id="chooseGedung">Choose Point</button>
                             <button class="btn btn-primary" id="addGedung" disabled>Add</button>
+                            <div class="pointOption">
+                                <div class="pointOptionRow">
+                                    <div class="pointOptionIcon" id="point"><img  src="assets/icon/point.png" width="50px" height="50px"></div>
+                                    <div class="pointOptionIcon" id="building"><img  src="assets/icon/building.png"  width="50px" height="50px"></div>
+                                    <div class="pointOptionIcon" id="basket"><img  src="assets/icon/basket.png"  width="50px" height="50px"></div>
+                                </div>
+                                <div class="pointOptionRow">
+                                    <div class="pointOptionIcon" id="kantin"><img  src="assets/icon/kantin.png" width="50px" height="50px"></div>
+                                    <div class="pointOptionIcon" id="atm"><img  src="assets/icon/atm.png"  width="50px" height="50px"></div>
+                                    <div class="pointOptionIcon" id="parking"><img  src="assets/icon/parking.png"  width="50px" height="50px"></div>
+                                </div>
+                            </div>
                         </div>
                         <hr class="admin">
                         <ul id="ListGedung">
@@ -63,7 +76,8 @@
                             <li id='"++"' class='gedungName'><div class='gedungHeader'>satu</div><div class='checkbox gedungCB'></div><div class='gedungInfo'></div></li>
                         </ul> -->
                     </div>
-                    <div id="Place" class="tabContent">   
+                    <div id="Place" class="tabContent">
+                        <div class = "path" id="pathPlace"></div>   
                         <button class="btn add addPlace admin" style="background-color:#111;">Add Place</button>
                         <button class="btn btn-danger delete deletePlace">Delete</button>
                         <div class="addForm addFormPlace admin">
@@ -88,6 +102,7 @@
                         </ul>
                     </div>
                     <div id="Point" class="tabContent">
+                        <div class = "path" id="pathPoint"></div>
                         <button class="btn add addPoint admin" style="background-color:#111;">Add Point</button>
                         <button class="btn btn-danger delete deletePoint">Delete</button>
                         <div class="addForm addFormPoint">
@@ -113,6 +128,7 @@
                         </ul>
                     </div>
                     <div id="Link" class="tabContent">
+                        <div class = "path" id="pathLink"></div>
                         <button class="btn add addLink admin" style="background-color:#111;">Add Link</button>
                         <button class="btn btn-danger delete deleteLink">Delete</button>
                         <div class="addForm addFormLink">
@@ -183,7 +199,7 @@
                     for(var i=0; i<data.length; i++){
                         var temp = data[i];
                             str +="<li id='gedungName"+temp.id+"' class='gedungName'><div class='gedungHeader'>"+temp.nama+"</div><div class='checkbox gedungCB'></div><div class='gedungInfo'>"+temp.detail+"</div></li>"
-                            $(".mapPetra").append("<img class='gedungPoint' id='gedung"+temp.id+"'src='assets/gedungPoint.png'>");
+                            $(".mapPetra").append("<img class='gedungPoint' id='gedung"+temp.id+"'src='assets/icon/"+temp.icon+".png'>");
                             $(".mapPetra").children("#gedung"+temp.id).css({"left":(temp.x - $(".map").offset().left)+"px","top":(temp.y - $(".map").offset().top)+"px"});
                             console.log(str);
                     }
@@ -207,7 +223,7 @@
                         var temp = data[i];
                         str +="<li id='gedungName"+temp.id+"' class='gedungName'><div class='gedungHeader'>"+temp.nama+"</div><div class='checkbox gedungCB'></div><div class='gedungInfo'>"+temp.detail+"</div></li>"
                         $(".mapPetra").append("<img class='gedungPoint' id='gedung"+temp.id+"'src='assets/gedungPoint.png'>");
-                        $(".mapPetra").children("#gedung"+temp.id).css({"left":(temp.x - $(".map").offset().left)+"px","top":(temp.y - $(".map").offset().top)+"px"});
+                        $(".mapPetra").children("#gedung"+temp.id).css({"left":(temp.x - $(".map").offset().left+300)+"px","top":(temp.y - $(".map").offset().top)+"px"});
                         console.log(str);
                     }
                     if(data.length>0){
