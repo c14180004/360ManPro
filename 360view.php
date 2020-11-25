@@ -77,14 +77,14 @@
                         </ul> -->
                     </div>
                     <div id="Place" class="tabContent">
-                        <div class = "path" id="pathPlace"></div> 
+                        <div class = "path" id="pathPlace"></div>
                         <!-- hanzen -->
                         <div class="searchbar-Place">
                             <label for="searchbarplace">Search Place :</label>
                             <input type="text" class="form-control" id="searchbarplace" placeholder="Enter Nama Place">    
                         </div>
                         <br>
-                        <!-- hanzen -->                          
+                        <!-- hanzen -->        
                         <button class="btn add addPlace admin" style="background-color:#111;">Add Place</button>
                         <button class="btn btn-danger delete deletePlace">Delete</button>
                         <div class="addForm addFormPlace admin">
@@ -197,8 +197,8 @@
         <script src="js/360View.js"></script>
         <script>
             // punyagedung
-        function refreshData(){
-            $("#ListGedung").text("Data Loading...");
+            function refreshData(){
+                 $("#ListGedung").text("Data Loading...");
                 if(ajaxcall!=null){
                     ajaxcall.abort();
                 }
@@ -213,12 +213,34 @@
                     //loop
                     for(var i=0; i<data.length; i++){
                         var temp = data[i];
-                            str +="<li id='gedungName"+temp.id+"' class='gedungName'><div class='gedungHeader'>"+temp.nama+"</div><div class='checkbox gedungCB'></div><div class='gedungInfo'>"+temp.detail+"</div></li>"
-                            $(".mapPetra").append("<img class='gedungPoint' id='gedung"+temp.id+"'src='assets/icon/"+temp.icon+".png'>");
-                            $(".mapPetra").children("#gedung"+temp.id).css({"left":(temp.x - $(".map").offset().left)+"px","top":(temp.y - $(".map").offset().top)+"px"});
-                            console.log(str);
+                        str +="<li id='gedungName"+temp.id+"' class='gedungName'><div class='gedungHeader'>"+temp.nama+"</div><div class='checkbox gedungCB'></div><div class='gedungInfo'>"+temp.detail+"</div></li>"
+                        $(".mapPetra").append("<img class='gedungPoint' id='gedung"+temp.id+"'src='assets/icon/"+temp.icon+".png'>");
+                        $(".mapPetra").children("#gedung"+temp.id).css({"left":(temp.x - $(".map").offset().left)+"px","top":(temp.y - $(".map").offset().top)+"px"});
+                        console.log(str);
                     }
                     $("#ListGedung").html(str);
+                    gedungInfoListener();
+                        gedungDeleteListener();
+                        $(".gedungName").on("click",function(){
+                            if(!isGedungDeleting){
+                                var tempGedungId = $(this).attr("id");
+                                nowIdGedung = parseInt(tempGedungId.substring(10,tempGedungId.length));
+                                //console.log(nowIdGedung);
+                                nowIdTempat = -1;
+                                nowIdPoint = -1;
+                                getDataPlace(nowIdGedung);
+                                $(".tablink").eq(1).click();
+                            }
+                        });
+                        $(".gedungPoint").on("click",function(){
+                            var tempGedungId = $(this).attr("id");
+                            nowIdGedung = parseInt(tempGedungId.substring(6,tempGedungId.length));
+                            //console.log(nowIdGedung);
+                            nowIdTempat = -1;
+                            nowIdPoint = -1;
+                            getDataPlace(nowIdGedung);
+                            $(".tablink").eq(1).click();
+                        });
                 })
             }
             function searchData(search){
@@ -236,12 +258,34 @@
                     for(var i=0; i<data.length; i++){
                         var temp = data[i];
                         str +="<li id='gedungName"+temp.id+"' class='gedungName'><div class='gedungHeader'>"+temp.nama+"</div><div class='checkbox gedungCB'></div><div class='gedungInfo'>"+temp.detail+"</div></li>"
-                        $(".mapPetra").append("<img class='gedungPoint' id='gedung"+temp.id+"'src='assets/gedungPoint.png'>");
-                        $(".mapPetra").children("#gedung"+temp.id).css({"left":(temp.x - $(".map").offset().left+300)+"px","top":(temp.y - $(".map").offset().top)+"px"});
+                        $(".mapPetra").append("<img class='gedungPoint' id='gedung"+temp.id+"'src='assets/icon/"+temp.icon+".png'>");
+                        $(".mapPetra").children("#gedung"+temp.id).css({"left":(temp.x - $(".map").offset().left)+"px","top":(temp.y - $(".map").offset().top)+"px"});
                         console.log(str);
                     }
                     if(data.length>0){
                         $("#ListGedung").html(str);
+                        gedungInfoListener();
+                        gedungDeleteListener();
+                        $(".gedungName").on("click",function(){
+                            if(!isGedungDeleting){
+                                var tempGedungId = $(this).attr("id");
+                                nowIdGedung = parseInt(tempGedungId.substring(10,tempGedungId.length));
+                                //console.log(nowIdGedung);
+                                nowIdTempat = -1;
+                                nowIdPoint = -1;
+                                getDataPlace(nowIdGedung);
+                                $(".tablink").eq(1).click();
+                            }
+                        });
+                        $(".gedungPoint").on("click",function(){
+                            var tempGedungId = $(this).attr("id");
+                            nowIdGedung = parseInt(tempGedungId.substring(6,tempGedungId.length));
+                            //console.log(nowIdGedung);
+                            nowIdTempat = -1;
+                            nowIdPoint = -1;
+                            getDataPlace(nowIdGedung);
+                            $(".tablink").eq(1).click();
+                        });
                     }
 
                 })
@@ -270,6 +314,38 @@
                         }
                     }
                     $("#ListPlace").html(str);
+                    placeInfoListener();
+                    placeDeleteListener();
+                    console.log(dataPlace);  
+                    $(".placeName").on("click",function(){
+                        tempTempatId = $(this).attr("id");
+                        nowIdTempat = parseInt(tempTempatId.substring(6,tempTempatId.length));
+                        //console.log(nowIdTempat);
+                        
+                        for(var i=0;i<dataPlace.length;i++){
+                            if(dataPlace[i].id == nowIdTempat){
+                                str = "";
+                                str +='<h2 class="judulMap">'+dataPlace[i].nama+'</h2><h2 class="closeMap"><i class="fa fa-chevron-up" aria-hidden="true"></i></h2><img src="'+dataPlace[i].image+'" id="minimap">';
+                                $(".minimap").html(str);
+                                $("#minimap").on("click",function(){
+                                    if(!pointSelected){
+                                        var x = event.clientX;
+                                        var y = event.clientY;
+                                        console.log("X: " + x + ", Y: " + y);
+                                        addPlace(x,y);
+                                    }
+                                })
+                                hideMiniMap();
+                                nowIdPoint = -1;
+                                getDataPoint(nowIdTempat);
+                            }
+                        }
+                        if(nowIdTempat == -1){
+                            getDataPoint(-1)
+                        }
+                        getPointId();
+                    });
+                    $(".placeName").eq(0).click();
                 })
             }
             function searchDataPlace(search){
@@ -293,6 +369,38 @@
                     }
                     if(data.length>0){
                         $("#ListPlace").html(str);
+                        placeInfoListener();
+                        placeDeleteListener();
+                        console.log(dataPlace);  
+                        $(".placeName").on("click",function(){
+                            tempTempatId = $(this).attr("id");
+                            nowIdTempat = parseInt(tempTempatId.substring(6,tempTempatId.length));
+                            //console.log(nowIdTempat);
+                            
+                            for(var i=0;i<dataPlace.length;i++){
+                                if(dataPlace[i].id == nowIdTempat){
+                                    str = "";
+                                    str +='<h2 class="judulMap">'+dataPlace[i].nama+'</h2><h2 class="closeMap"><i class="fa fa-chevron-up" aria-hidden="true"></i></h2><img src="'+dataPlace[i].image+'" id="minimap">';
+                                    $(".minimap").html(str);
+                                    $("#minimap").on("click",function(){
+                                        if(!pointSelected){
+                                            var x = event.clientX;
+                                            var y = event.clientY;
+                                            console.log("X: " + x + ", Y: " + y);
+                                            addPlace(x,y);
+                                        }
+                                    })
+                                    hideMiniMap();
+                                    nowIdPoint = -1;
+                                    getDataPoint(nowIdTempat);
+                                }
+                            }
+                            if(nowIdTempat == -1){
+                                getDataPoint(-1)
+                            }
+                            getPointId();
+                        });
+                        $(".placeName").eq(0).click();
                     }
 
                 })

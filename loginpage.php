@@ -2,7 +2,7 @@
 require_once "connect.php";
 
 if(isset($_SESSION["loggedinadmin"]) && $_SESSION["loggedinadmin"] === true){
-	header("location: index.php");
+	header("location: 360view.php");
     exit;
 }
 
@@ -59,7 +59,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $_SESSION["username"] = $username;                            
                             
                             // Redirect user to welcome page
-                            header("location: index.php");
+                            header("location: 360view.php");
                         } else{
                             // Display an error message if password is not valid
                             $password_err = "The password you entered was not valid.";

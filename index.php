@@ -29,8 +29,10 @@
                     <ul class="navbar-nav ml-auto my-2 my-lg-0">
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">Home</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#services">List Gedung</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#Facility">Fasilitas</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#Prodi">Prodi</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#Biro">Biro</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="loginpage.php">Login</a></li>
                     </ul>
                 </div>
             </div>
@@ -153,6 +155,213 @@
             </div>
         </div>
         
+        <!-- Facility -->
+        <section class="page-section" id="Facility">
+            <div class="container">
+                <h2 class="text-center mt-0">List Fasilitas</h2>
+                <hr class="divider my-4" />
+            </div>
+        </section>
+        <!-- Portfolio-->
+        <div id="portfolio">
+            <div class="container-fluid p-0">
+                <div class="row no-gutters">
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/library.jpg">
+                            <img class="img-fluid" src="assets/library.jpg" alt="" style="height:350px; width:810px;"/>
+                            <div class="portfolio-box-caption">
+                                <div class="project-category text-white-50">Facility Name</div>
+                                <div class="project-name">Perpustakaan</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/kantin.jpg">
+                            <img class="img-fluid" src="assets/kantin.jpg" alt="" style="height:350px; width:810px;" />
+                            <div class="portfolio-box-caption">
+                                <div class="project-category text-white-50">Facility Name</div>
+                                <div class="project-name">Kantin</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/puskom.jpg">
+                            <img class="img-fluid" src="assets/puskom.jpg" alt="" style="height:350px; width:810px;"/>
+                            <div class="portfolio-box-caption">
+                                <div class="project-category text-white-50">Facility Name</div>
+                                <div class="project-name">Puskom</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/atm.jpg">
+                            <img class="img-fluid" src="assets/atm.jpg" alt="" style="height:350px; width:810px;"/>
+                            <div class="portfolio-box-caption">
+                                <div class="project-category text-white-50">Facility Name</div>
+                                <div class="project-name">ATM BCA</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/kj.jpg">
+                            <img class="img-fluid" src="assets/kj.jpg" alt="" style="height:350px; width:810px;" />
+                            <div class="portfolio-box-caption">
+                                <div class="project-category text-white-50">Facility Name</div>
+                                <div class="project-name">KJ</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/auditorium.jpeg">
+                            <img class="img-fluid" src="assets/auditorium.jpeg" alt="" style="height:350px; width:810px;"/>
+                            <div class="portfolio-box-caption p-3">
+                                <div class="project-category text-white-50">Facility Name</div>
+                                <div class="project-name">Auditorium</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prodi -->
+        <section class="page-section" id="Prodi">
+            <div class="container">
+                <h2 class="text-center mt-0">List Prodi</h2>
+                <hr class="divider my-4" />
+            </div>
+        </section>
+        <!-- Portfolio-->
+        <div id="portfolio">
+            <div class="container-fluid p-0">
+                <div class="row no-gutters">
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/infor.jpg">
+                            <img class="img-fluid" src="assets/infor.jpg" alt="" style="height:350px; width:810px;"/>
+                            <div class="portfolio-box-caption">
+                                <div class="project-category text-white-50">Major Name</div>
+                                <div class="project-name">Teknik Informatika</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/interior.jpg">
+                            <img class="img-fluid" src="assets/interior.jpg" alt="" style="height:350px; width:810px;" />
+                            <div class="portfolio-box-caption">
+                                <div class="project-category text-white-50">Major Name</div>
+                                <div class="project-name">Desain Interior</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/ibm.jpg">
+                            <img class="img-fluid" src="assets/ibm.jpg" alt="" style="height:350px; width:810px;"/>
+                            <div class="portfolio-box-caption">
+                                <div class="project-category text-white-50">Major Name</div>
+                                <div class="project-name">IBM</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/ibacc.jpg">
+                            <img class="img-fluid" src="assets/ibacc.jpg" alt="" style="height:350px; width:810px;"/>
+                            <div class="portfolio-box-caption">
+                                <div class="project-category text-white-50">Major Name</div>
+                                <div class="project-name">IBAcc</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/sipil.jpg">
+                            <img class="img-fluid" src="assets/sipil.jpg" alt="" style="height:350px; width:810px;" />
+                            <div class="portfolio-box-caption">
+                                <div class="project-category text-white-50">Major Name</div>
+                                <div class="project-name">Teknik Sipil</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/arsitektur.jpg">
+                            <img class="img-fluid" src="assets/arsitektur.jpg" alt="" style="height:350px; width:810px;"/>
+                            <div class="portfolio-box-caption p-3">
+                                <div class="project-category text-white-50">Major Name</div>
+                                <div class="project-name">Arsitektur</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Biro -->
+        <section class="page-section" id="Biro">
+            <div class="container">
+                <h2 class="text-center mt-0">List Biro</h2>
+                <hr class="divider my-4" />
+            </div>
+        </section>
+        <!-- Portfolio-->
+        <div id="portfolio">
+            <div class="container-fluid p-0">
+                <div class="row no-gutters">
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/w.jpg">
+                            <img class="img-fluid" src="assets/w.jpg" alt="" style="height:350px; width:810px;"/>
+                            <div class="portfolio-box-caption">
+                                <div class="project-category text-white-50">Biro Name</div>
+                                <div class="project-name">BAKA</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/baak.jpg">
+                            <img class="img-fluid" src="assets/baak.jpg" alt="" style="height:350px; width:810px;" />
+                            <div class="portfolio-box-caption">
+                                <div class="project-category text-white-50">Biro Name</div>
+                                <div class="project-name">BAAK</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/q.jpg">
+                            <img class="img-fluid" src="assets/q.jpg" alt="" style="height:350px; width:810px;"/>
+                            <div class="portfolio-box-caption">
+                                <div class="project-category text-white-50">Biro Name</div>
+                                <div class="project-name">BAK</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/t.jpg">
+                            <img class="img-fluid" src="assets/t.jpg" alt="" style="height:350px; width:810px;"/>
+                            <div class="portfolio-box-caption">
+                                <div class="project-category text-white-50">Biro Name</div>
+                                <div class="project-name">BAUK</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/library.jpg">
+                            <img class="img-fluid" src="assets/library.jpg" alt="" style="height:350px; width:810px;" />
+                            <div class="portfolio-box-caption">
+                                <div class="project-category text-white-50">Biro Name</div>
+                                <div class="project-name">UPPK</div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-sm-6">
+                        <a class="portfolio-box" href="assets/auditorium.jpeg">
+                            <img class="img-fluid" src="assets/auditorium.jpeg" alt="" style="height:350px; width:810px;"/>
+                            <div class="portfolio-box-caption p-3">
+                                <div class="project-category text-white-50">Biro Name</div>
+                                <div class="project-name">Unit Perbekalan</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Contact-->
         <section class="page-section" id="contact">
             <div class="container">

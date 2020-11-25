@@ -161,7 +161,14 @@ html,body{
     background-color:red;
     z-index:5;
 }
+input {
+    padding:5px;
+    font-family:'Lucida Casual', 'Comic Sans MS';    
+    font-size: 16px !important;
+    justify-content: center;
+}
 .gedungHeader{
+    font-family:'Lucida Casual', 'Comic Sans MS';  
     width:100%;
     padding:5px;
     font-size:20px;
@@ -181,11 +188,12 @@ html,body{
     text-align: center;
 }
 .gedungInfo{
+    font-family:'Lucida Casual', 'Comic Sans MS';  
     height:0px;
     padding:0px;
     width:100%;
     overflow: hidden;
-    font-size:14px;
+    font-size:18px;
     transition: 0.5s;
     background-color:#555;
 }
@@ -228,6 +236,7 @@ html,body{
     background-color:grey;
 }
 .placeHeader{
+    font-family:'Lucida Casual', 'Comic Sans MS';  
     width:100%;
     padding:10px;
     font-size:20px;
@@ -235,11 +244,12 @@ html,body{
     display:inline;
 }
 .placeInfo{
+    font-family:'Lucida Casual', 'Comic Sans MS';  
     height:0px;
     padding:0px;
     width:100%;
     overflow: hidden;
-    font-size:14px;
+    font-size:18px;
     transition: 0.5s;
     background-color:#555;
 }
@@ -248,17 +258,19 @@ html,body{
     cursor:pointer;
 }
 .pointHeader{
+    font-family:'Lucida Casual', 'Comic Sans MS';  
     width:100%;
     padding:5px;
-    font-size:16px;
+    font-size:20px;
     font-weight: bold;
     display:inline;
 }
 .pointInfo{
+    font-family:'Lucida Casual', 'Comic Sans MS';  
     height:0px;
     padding:0px;
     width:100%;
-    font-size:14px;
+    font-size:18px;
     overflow: hidden;
     transition: 0.5s;
     background-color:#555;
