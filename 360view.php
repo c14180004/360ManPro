@@ -25,7 +25,10 @@
         <div class='contain'>
             <button class="sideNavOpen"><i class="fa fa-bars" aria-hidden="true"></i></button>
             <div class="sideNav">
-                <button class="sideNavClose"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                <div class="top">
+                        <button class="sideNavClose"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                        <button class="logout btn btn-warning admin">Logout</button>
+                </div>
                 <div class="tempat">
                     <button class="tablink">Gedung</button>
                     <button class="tablink">Place</button>
@@ -173,7 +176,7 @@
             <div class="mapContainer">
                 <div class="map">
                     <div class="mapPetra">
-                        <img class="mapPetraImage" src="assets/mapPetra.png">
+                        <img class="mapPetraImage" src="assets/denaUKP.png">
                     </div>
                 </div>
             </div>

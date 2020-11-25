@@ -269,7 +269,15 @@ $(document).ready(function(){
     $(".canvas").css("display","none");
     $(".map").css("display","block");
     
-
+    $(".logout").on("click",function(){
+        $.ajax({
+            url:"logout.php",
+            type:"post",
+            success:function(response){
+                window.location = "loginPage.php";
+            }
+        })
+    })
     $(".addGedung").on("click",function(){
         if(!addFormGedungOpen){
             if(!pointGedungSelecting){
@@ -335,7 +343,9 @@ $(document).ready(function(){
                     }
                 });
             }else{
-                alert("Choose gedung name to delete");
+                isGedungDeleting = false;
+                $(".gedungCB").css("display","none");
+                //alert("Choose gedung name to delete");
             }
             
         }else{
@@ -364,7 +374,9 @@ $(document).ready(function(){
                     }
                 });
             }else{
-                alert("Choose Place name to delete");
+                isPlaceDeleting = false;
+                $(".placeCB").css("display","none");
+                //alert("Choose Place name to delete");
             }
             
         }else{
@@ -393,7 +405,9 @@ $(document).ready(function(){
                     }
                 });
             }else{
-                alert("Choose Point name to delete");
+                $(".pointCB").css("display","none");
+                isPointDeleting = false;
+                //alert("Choose Point name to delete");
             }
             
         }else{
@@ -422,7 +436,9 @@ $(document).ready(function(){
                     }
                 });
             }else{
-                alert("Choose link name to delete");
+                $(".linkCB").css("display","none");
+                isLinkDeleting = false;
+                //alert("Choose link name to delete");
             }
             
         }else{
