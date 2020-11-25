@@ -77,7 +77,14 @@
                         </ul> -->
                     </div>
                     <div id="Place" class="tabContent">
-                        <div class = "path" id="pathPlace"></div>   
+                        <div class = "path" id="pathPlace"></div> 
+                        <!-- hanzen -->
+                        <div class="searchbar-Place">
+                            <label for="searchbarplace">Search Place :</label>
+                            <input type="text" class="form-control" id="searchbarplace" placeholder="Enter Nama Place">    
+                        </div>
+                        <br>
+                        <!-- hanzen -->                          
                         <button class="btn add addPlace admin" style="background-color:#111;">Add Place</button>
                         <button class="btn btn-danger delete deletePlace">Delete</button>
                         <div class="addForm addFormPlace admin">
@@ -103,6 +110,13 @@
                     </div>
                     <div id="Point" class="tabContent">
                         <div class = "path" id="pathPoint"></div>
+                        <!-- hanzen -->
+                        <div class="searchbar-Point">
+                            <label for="searchbarpoint">Search Point :</label>
+                            <input type="text" class="form-control" id="searchbarpoint" placeholder="Enter Nama Point">    
+                        </div>
+                        <br>
+                        <!-- hanzen -->  
                         <button class="btn add addPoint admin" style="background-color:#111;">Add Point</button>
                         <button class="btn btn-danger delete deletePoint">Delete</button>
                         <div class="addForm addFormPoint">
@@ -182,6 +196,7 @@
         <script src="js/panolens.js"></script>
         <script src="js/360View.js"></script>
         <script>
+            // punyagedung
         function refreshData(){
             $("#ListGedung").text("Data Loading...");
                 if(ajaxcall!=null){
@@ -204,7 +219,6 @@
                             console.log(str);
                     }
                     $("#ListGedung").html(str);
-                    // $("#songsnotfound").hide();
                 })
             }
             function searchData(search){
@@ -232,6 +246,236 @@
 
                 })
             }
+
+            //punyaplace
+            function refreshDataPlace(){
+            $("#ListPlace").text("Data Loading...");
+                if(ajaxcall!=null){
+                    ajaxcall.abort();
+                }
+                ajaxcall = $.get("refreshplace.php",
+                {
+                    //input kalau ada
+                },
+                function(result){
+                    console.log(result);
+                    var data = JSON.parse(result);
+                    var str = "";
+                    //loop
+                    for(var i=0;i<data.length;i++){
+                        var temp = data[i];
+                        if(temp.id_gedung == nowIdGedung){
+                            // str += "<li id='tempat"+temp.id+"' class='placeName'>"+temp.nama+"</li>";
+                            str +="<li id='tempat"+temp.id+"' class='placeName'><div class='placeHeader'>"+temp.nama+"</div><div class='checkbox placeCB'></div><div class='placeInfo'>"+temp.detail+"</div></li>"
+                        }
+                    }
+                    $("#ListPlace").html(str);
+                })
+            }
+            function searchDataPlace(search){
+                $("#ListPlace").text("Data Loading...");
+                $("#ListPlace").empty();
+                ajaxcall = $.get("searchplace.php",
+                {
+                    search: search
+                },
+                function(result){
+                    console.log(result);
+                    var data = JSON.parse(result);
+                    var str = "";
+                    //loop
+                    for(var i=0;i<data.length;i++){
+                        var temp = data[i];
+                        if(temp.id_gedung == nowIdGedung){
+                            // str += "<li id='tempat"+temp.id+"' class='placeName'>"+temp.nama+"</li>";
+                            str +="<li id='tempat"+temp.id+"' class='placeName'><div class='placeHeader'>"+temp.nama+"</div><div class='checkbox placeCB'></div><div class='placeInfo'>"+temp.detail+"</div></li>"
+                        }
+                    }
+                    if(data.length>0){
+                        $("#ListPlace").html(str);
+                    }
+
+                })
+            }
+
+            //punyapoint
+            function refreshDataPoint(){
+            $("#ListPoint").text("Data Loading...");
+            var pertama = false;
+                if(ajaxcall!=null){
+                    ajaxcall.abort();
+                }
+                ajaxcall = $.get("refreshpoint.php",
+                {
+                    //input kalau ada
+                },
+                function(result){
+                    
+                    var data = JSON.parse(result);
+                    dataPoint = data;
+                    var str = "";
+                    var str1 = "";
+                    for(var j = 0;j<dataPoint.length;j++){
+                        if(dataPoint[j].idTempat == nowIdTempat){
+                            if(!pertama){
+                                nowIdPoint = dataPoint[j].id;
+                                pertama = true;
+                            }
+                            $(".minimap").append("<button id='point"+dataPoint[j].id+"' class='mapPoint'></button>");
+                            if(navOpen || pertama){
+                                $(".minimap").children("#point"+dataPoint[j].id).css({"left":(dataPoint[j].x-320)+"px","top":(dataPoint[j].y)+"px"});
+                            }else{
+                                $(".minimap").children("#point"+dataPoint[j].id).css({"left":(dataPoint[j].x-20)+"px","top":(dataPoint[j].y)+"px"});
+                            }
+                            
+                            str +="<li id='pointName"+dataPoint[j].id+"' class='pointName'><div class='pointHeader'>"+dataPoint[j].nama+"</div><div class='checkbox pointCB'></div><div class='pointInfo'>"+dataPoint[j].detail+"</div></li>"
+                            str1 +="<li id='poinLinkName"+dataPoint[j].id+"' class='pointLinkName'>"+dataPoint[j].nama+"</li>";
+                        }
+                    }
+                    $("#ListPoint").html(str);
+                    $("#ListPointLink").html(str1);
+                    pointInfoListener();
+                    pointDeleteListener();           
+                    $(".pointName").on("click",function(){
+                        var tempPointNameId = $(this).attr("id");
+                        nowIdPoint = parseInt(tempPointNameId.substring(9,tempPointNameId.length));
+                        for(var i = 0;i<$(".mapPoint").length;i++){
+                            var tempPointId = $(".mapPoint").eq(i).attr("id");
+                            if( tempPointId.substring(5,tempPointId.length) == nowIdPoint){
+                                $(".mapPoint").eq(i).css("background-color","green");
+                            }else{
+                                $(".mapPoint").eq(i).css("background-color","red");
+                            }
+                        }
+                        
+                        for(var i = 0;i<panorama.length;i++){
+                            if(panorama[i].getId() == nowIdPoint){
+                                viewer.setPanorama(panorama[i].getPanorama());
+                                addPanoramaListener(i);
+                            }
+                        }
+                        getLinkPoint();
+                        getDataLink(nowIdPoint);
+                    });
+                    $(".mapPoint").on("click",function(){
+                        tempMapPoint = $(this).attr("id");
+                        nowIdPoint = parseInt(tempMapPoint.substring(5,tempMapPoint.length));
+                        for(var i = 0;i<$(".mapPoint").length;i++){
+                            $(".mapPoint").eq(i).css("background-color","red");
+                        }
+                        $(this).css("background-color","green");
+                        for(var i = 0;i<panorama.length;i++){
+                            if(panorama[i].getId() == nowIdPoint){
+                                viewer.setPanorama(panorama[i].getPanorama());
+                                addPanoramaListener(i);
+                            }
+                        }
+                        getLinkPoint();
+                    });
+                    $(".pointLinkName").on("click",function(){
+                        var tempLinkNameId = $(this).attr("id");
+                        selectedLinkId=parseInt(tempLinkNameId.substring(12,tempLinkNameId.length));
+                        $("#linkDest").val($(this).text());
+                    });
+                    //styling
+                    $(".mapPoint").hover(function(){
+                        var pointOffset = $(this).position();
+                        $(this).css({"width":"14px","height":"14px","top":(pointOffset.top -1)+"px","left":(pointOffset.left-1)+"px"});
+                    },function(){
+                        var pointOffset = $(this).position();
+                        $(this).css({"width":"12px","height":"12px","top":(pointOffset.top +1)+"px","left":(pointOffset.left+1)+"px"});
+                    });
+                    getLinkPoint();
+                    $(".pointName").eq(0).click();
+                })
+            }
+            function searchDataPoint(search){
+                $("#ListPoint").text("Data Loading...");
+                $("#ListPoint").empty();
+                var pertama = false;
+                ajaxcall = $.get("searchpoint.php",
+                {
+                    search: search
+                },
+                function(result){
+                    var data = JSON.parse(result);
+                    dataPoint = data;
+                    var str = "";
+                    var str1 = "";
+                    for(var j = 0;j<dataPoint.length;j++){
+                        if(dataPoint[j].idTempat == nowIdTempat){
+                            if(!pertama){
+                                nowIdPoint = dataPoint[j].id;
+                                pertama = true;
+                            }
+                            $(".minimap").append("<button id='point"+dataPoint[j].id+"' class='mapPoint'></button>");
+                            if(navOpen || pertama){
+                                $(".minimap").children("#point"+dataPoint[j].id).css({"left":(dataPoint[j].x-320)+"px","top":(dataPoint[j].y)+"px"});
+                            }else{
+                                $(".minimap").children("#point"+dataPoint[j].id).css({"left":(dataPoint[j].x-20)+"px","top":(dataPoint[j].y)+"px"});
+                            }
+                            
+                            str +="<li id='pointName"+dataPoint[j].id+"' class='pointName'><div class='pointHeader'>"+dataPoint[j].nama+"</div><div class='checkbox pointCB'></div><div class='pointInfo'>"+dataPoint[j].detail+"</div></li>"
+                            str1 +="<li id='poinLinkName"+dataPoint[j].id+"' class='pointLinkName'>"+dataPoint[j].nama+"</li>";
+                        }
+                    }
+                    $("#ListPoint").html(str);
+                    $("#ListPointLink").html(str1);
+                    pointInfoListener();
+                    pointDeleteListener();           
+                    $(".pointName").on("click",function(){
+                        var tempPointNameId = $(this).attr("id");
+                        nowIdPoint = parseInt(tempPointNameId.substring(9,tempPointNameId.length));
+                        for(var i = 0;i<$(".mapPoint").length;i++){
+                            var tempPointId = $(".mapPoint").eq(i).attr("id");
+                            if( tempPointId.substring(5,tempPointId.length) == nowIdPoint){
+                                $(".mapPoint").eq(i).css("background-color","green");
+                            }else{
+                                $(".mapPoint").eq(i).css("background-color","red");
+                            }
+                        }
+                        
+                        for(var i = 0;i<panorama.length;i++){
+                            if(panorama[i].getId() == nowIdPoint){
+                                viewer.setPanorama(panorama[i].getPanorama());
+                                addPanoramaListener(i);
+                            }
+                        }
+                        getLinkPoint();
+                        getDataLink(nowIdPoint);
+                    });
+                    $(".mapPoint").on("click",function(){
+                        tempMapPoint = $(this).attr("id");
+                        nowIdPoint = parseInt(tempMapPoint.substring(5,tempMapPoint.length));
+                        for(var i = 0;i<$(".mapPoint").length;i++){
+                            $(".mapPoint").eq(i).css("background-color","red");
+                        }
+                        $(this).css("background-color","green");
+                        for(var i = 0;i<panorama.length;i++){
+                            if(panorama[i].getId() == nowIdPoint){
+                                viewer.setPanorama(panorama[i].getPanorama());
+                                addPanoramaListener(i);
+                            }
+                        }
+                        getLinkPoint();
+                    });
+                    $(".pointLinkName").on("click",function(){
+                        var tempLinkNameId = $(this).attr("id");
+                        selectedLinkId=parseInt(tempLinkNameId.substring(12,tempLinkNameId.length));
+                        $("#linkDest").val($(this).text());
+                    });
+                    //styling
+                    $(".mapPoint").hover(function(){
+                        var pointOffset = $(this).position();
+                        $(this).css({"width":"14px","height":"14px","top":(pointOffset.top -1)+"px","left":(pointOffset.left-1)+"px"});
+                    },function(){
+                        var pointOffset = $(this).position();
+                        $(this).css({"width":"12px","height":"12px","top":(pointOffset.top +1)+"px","left":(pointOffset.left+1)+"px"});
+                    });
+                    getLinkPoint();
+                    $(".pointName").eq(0).click();
+                })
+            }
             $(document).ready(function(){
                 
                 isLogin = <?php echo $isLogin?>;
@@ -247,6 +491,7 @@
                     $(".delete").css("display","none");
                     $(".tablink").css("width","33.33%");
                 }
+                // punyagedung
                 var timer;
                 $("#searchbargedung").on("input",function(){
                     console.log("bhaa");
@@ -260,6 +505,41 @@
                         }
                         else{
                             searchData(search);
+                        }
+                    },200); //200ms kemudian baru functionnya dipanggil
+                })
+                
+
+                //punyaplace
+                var timer1;
+                $("#searchbarplace").on("input",function(){
+                    console.log("bhaa");
+                    clearTimeout(timer1);
+                    timer1 = setTimeout(function(){
+                        var search=$("#searchbarplace").val();
+                        console.log(search);
+                        if(search==""){
+                            //kosong
+                            refreshDataPlace();
+                        }
+                        else{
+                            searchDataPlace(search);
+                        }
+                    },200); //200ms kemudian baru functionnya dipanggil
+                })
+                var timer2;
+                $("#searchbarpoint").on("input",function(){
+                    console.log("bhaa");
+                    clearTimeout(timer2);
+                    timer2 = setTimeout(function(){
+                        var search=$("#searchbarpoint").val();
+                        console.log(search);
+                        if(search==""){
+                            //kosong
+                            refreshDataPoint();
+                        }
+                        else{
+                            searchDataPoint(search);
                         }
                     },200); //200ms kemudian baru functionnya dipanggil
                 })

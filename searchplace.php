@@ -1,7 +1,7 @@
 <?php
 	require_once "connect.php";
 	$search = $_GET["search"];
-    $query = "SELECT * FROM `gedung` WHERE nama LIKE '%$search%'";
+    $query = "SELECT * FROM `tempat` WHERE nama LIKE '%$search%'";
     $q = mysqli_query($conn, $query);
    
 
