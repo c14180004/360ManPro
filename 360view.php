@@ -159,7 +159,7 @@
             <div class="mapContainer">
                 <div class="map">
                     <div class="mapPetra">
-                        <img class="mapPetraImage" src="assets/mapPetra.png">
+                        <img class="mapPetraImage" src="assets/denaUKP.png">
                     </div>
                 </div>
             </div>
@@ -205,6 +205,28 @@
                     }
                     $("#ListGedung").html(str);
                     // $("#songsnotfound").hide();
+                    gedungInfoListener();
+                    gedungDeleteListener();
+                    $(".gedungName").on("click",function(){
+                        if(!isGedungDeleting){
+                            var tempGedungId = $(this).attr("id");
+                            nowIdGedung = parseInt(tempGedungId.substring(10,tempGedungId.length));
+                            //console.log(nowIdGedung);
+                            nowIdTempat = -1;
+                            nowIdPoint = -1;
+                            getDataPlace(nowIdGedung);
+                            $(".tablink").eq(1).click();
+                        }
+                    });
+                    $(".gedungPoint").on("click",function(){
+                        var tempGedungId = $(this).attr("id");
+                        nowIdGedung = parseInt(tempGedungId.substring(6,tempGedungId.length));
+                        //console.log(nowIdGedung);
+                        nowIdTempat = -1;
+                        nowIdPoint = -1;
+                        getDataPlace(nowIdGedung);
+                        $(".tablink").eq(1).click();
+                    });
                 })
             }
             function searchData(search){
@@ -222,13 +244,35 @@
                     for(var i=0; i<data.length; i++){
                         var temp = data[i];
                         str +="<li id='gedungName"+temp.id+"' class='gedungName'><div class='gedungHeader'>"+temp.nama+"</div><div class='checkbox gedungCB'></div><div class='gedungInfo'>"+temp.detail+"</div></li>"
-                        $(".mapPetra").append("<img class='gedungPoint' id='gedung"+temp.id+"'src='assets/gedungPoint.png'>");
-                        $(".mapPetra").children("#gedung"+temp.id).css({"left":(temp.x - $(".map").offset().left+300)+"px","top":(temp.y - $(".map").offset().top)+"px"});
+                        $(".mapPetra").append("<img class='gedungPoint' id='gedung"+temp.id+"'src='assets/icon/"+temp.icon+".png'>");
+                        $(".mapPetra").children("#gedung"+temp.id).css({"left":(temp.x - $(".map").offset().left)+"px","top":(temp.y - $(".map").offset().top)+"px"});
                         console.log(str);
                     }
                     if(data.length>0){
                         $("#ListGedung").html(str);
-                    }
+                        gedungInfoListener();
+                        gedungDeleteListener();
+                        $(".gedungName").on("click",function(){
+                            if(!isGedungDeleting){
+                                var tempGedungId = $(this).attr("id");
+                                nowIdGedung = parseInt(tempGedungId.substring(10,tempGedungId.length));
+                                //console.log(nowIdGedung);
+                                nowIdTempat = -1;
+                                nowIdPoint = -1;
+                                getDataPlace(nowIdGedung);
+                                $(".tablink").eq(1).click();
+                            }
+                        });
+                        $(".gedungPoint").on("click",function(){
+                            var tempGedungId = $(this).attr("id");
+                            nowIdGedung = parseInt(tempGedungId.substring(6,tempGedungId.length));
+                            //console.log(nowIdGedung);
+                            nowIdTempat = -1;
+                            nowIdPoint = -1;
+                            getDataPlace(nowIdGedung);
+                            $(".tablink").eq(1).click();
+                        });
+                        }
 
                 })
             }

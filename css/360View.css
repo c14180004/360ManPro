@@ -111,14 +111,14 @@ html,body{
 .mapPetra{
     position:absolute;
     overflow: hidden;
-    width: 3000px;
-    height:1000px;
+    width: 4000px;
+    height: 4000px;
 }
 .mapPetraImage{
     position:absolute;
     overflow: hidden;
-    width: 3000px;
-    height:1000px;
+    width: 4000px;
+    height: 4000px;
 }
 #panorama{
     position:absolute;
