@@ -11,6 +11,11 @@ var isPlaceDeleting = false;
 var isPointDeleting = false;
 var isLinkDeleting = false;
 
+var gedung = $("#scriptView").attr("gedung");
+var fasilitas = $("#scriptView").attr("fasilitas");
+var prodi = $("#scriptView").attr("prodi");
+var biro = $("#scriptView").attr("biro");
+
 var dataGedung;
 var dataPlace;
 var dataPoint;
@@ -43,6 +48,8 @@ var deleteGedungId = [];
 var deletePlaceId = [];
 var deletePointId = [];
 var deleteLinkId = [];
+
+var first = true;
 
 var panorama, viewer;
 panorama = [];
@@ -651,20 +658,31 @@ $(document).ready(function(){
             }
             viewer.setPanorama(panorama[0].getPanorama());
             nowIdTempat=panorama[0].getId();
-            $(".gedungName").eq(0).click();
+            if(gedung == "" && fasilitas == "" && prodi == "" && biro == ""){
+                $(".gedungName").eq(0).click();
+            }
             // Test repeated scenario
             viewer.enableControl( PANOLENS.CONTROLS.DEVICEORIENTATION );
             viewer.enableEffect( PANOLENS.MODES.CARDBOARD );
             viewer.enableControl( PANOLENS.CONTROLS.ORBIT );
             viewer.enableEffect( PANOLENS.MODES.NORMAL );
-            $(".tablink").eq(0).click();
+            if(gedung == "" && fasilitas == "" && prodi == "" && biro == ""){
+                $(".tablink").eq(0).click();
+            }
         }
     });
-
-    //searchgedung
-
     
+    //searchgedung
 });
+
+function goToGedung(name){
+    var gdng = $(".gedungHeader");
+    for(var i = 0;i<gdng.length;i++){
+        if(gdng.eq(i).text() == name){
+            gdng.eq(i).click();
+        }
+    }
+}
 function updateLocation(tab){
     var str="";
     if(tab == "Link"){
@@ -841,6 +859,17 @@ function getDataGedung(){
                 getDataPlace(nowIdGedung);
                 $(".tablink").eq(1).click();
             });
+            if(gedung != "" && first){
+                gdng = $(".gedungName");
+                console.log(gdng.length);
+                for(var i = 0;i<gdng.length;i++){
+                    console.log(gdng.eq(i).children(".gedungHeader").text())
+                    if(gdng.eq(i).children(".gedungHeader").text() == gedung){
+                       gdng.eq(i).click();
+                    }
+                }
+                first = false;
+            }
         },error:function(e){
             console.log(e.responseText);
         }

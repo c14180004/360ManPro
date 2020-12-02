@@ -197,8 +197,17 @@
         <script src="js/three.js"></script>
         <script src="js/OrbitControls.js"></script>
         <script src="js/panolens.js"></script>
-        <script src="js/360View.js"></script>
+        <script id ="scriptView" src="js/360View.js" 
+            gedung = "<?php if(isset($_GET["gedung"])){echo($_GET["gedung"]);}?>";
+            fasilitas = "<?php if(isset($_GET["fasilitas"])){echo($_GET["fasilitas"]);}?>";
+            prodi = "<?php if(isset($_GET["prodi"])){echo($_GET["prodi"]);}?>";
+            biro = "<?php if(isset($_GET["biro"])){echo($_GET["biro"]);}?>";
+        ></script>
         <script>
+            var gedung = "<?php if(isset($_GET["gedung"])){echo($_GET["gedung"]);}?>";
+            var fasilitas = "<?php if(isset($_GET["fasilitas"])){echo($_GET["fasilitas"]);}?>";
+            var prodi = "<?php if(isset($_GET["prodi"])){echo($_GET["prodi"]);}?>";
+            var biro = "<?php if(isset($_GET["biro"])){echo($_GET["biro"]);}?>";
             // punyagedung
             function refreshData(){
                  $("#ListGedung").text("Data Loading...");
@@ -587,8 +596,8 @@
                     $(".pointName").eq(0).click();
                 })
             }
+            
             $(document).ready(function(){
-                
                 isLogin = <?php echo $isLogin?>;
                 console.log(isLogin);
                 if(isLogin == true){

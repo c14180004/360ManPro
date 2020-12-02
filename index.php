@@ -8,7 +8,7 @@
         <title>Petra Christian University Virtual Tour</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/logoukp.png" />
-        <!-- Font Awesome icons (free version)-->
+        <!--   Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
@@ -98,7 +98,7 @@
             <div class="container-fluid p-0">
                 <div class="row no-gutters">
                     <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="assets/w.jpg">
+                        <a class="portfolio-box" href="360view.php?gedung=Gedung%20W">
                             <img class="img-fluid" src="assets/w.jpg" alt="" style="height:350px; width:810px;"/>
                             <div class="portfolio-box-caption">
                                 <div class="project-category text-white-50">Building Name</div>
@@ -107,7 +107,7 @@
                         </a>
                     </div>
                     <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="assets/p.jpg">
+                        <a class="portfolio-box" href="360view.php?gedung=Gedung%20P">
                             <img class="img-fluid" src="assets/p.jpg" alt="" style="height:350px; width:810px;" />
                             <div class="portfolio-box-caption">
                                 <div class="project-category text-white-50">Building Name</div>
@@ -167,7 +167,7 @@
             <div class="container-fluid p-0">
                 <div class="row no-gutters">
                     <div class="col-lg-4 col-sm-6">
-                        <a class="portfolio-box" href="assets/library.jpg">
+                        <a class="portfolio-box" href="360view.php?fasilitas=Gedung%20W">
                             <img class="img-fluid" src="assets/library.jpg" alt="" style="height:350px; width:810px;"/>
                             <div class="portfolio-box-caption">
                                 <div class="project-category text-white-50">Facility Name</div>
@@ -404,7 +404,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
         <!-- Third party plugin JS-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script> -->
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
     </body>
